@@ -1,0 +1,1 @@
+main: python "ia_bot.py"
