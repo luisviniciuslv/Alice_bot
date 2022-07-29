@@ -1,1 +1,1 @@
-main: python "ia_bot.py"
+main: python "main.py"
