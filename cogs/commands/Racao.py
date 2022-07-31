@@ -9,7 +9,7 @@ class Racao(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=['ração', 'rações', 'racoes'])
+    @commands.command(aliases=['ração', 'rações', 'racoes', 'raçoes'])
     async def racao(self, ctx):
 
         # Checkando se o User tem um Galo
@@ -28,7 +28,7 @@ class Racao(commands.Cog):
 
         # Função de verificação das reações
         def check(reaction, user):
-            return user.id == ctx.author.id
+            return user.id == ctx.author.id and str(reaction.emoji) in ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
 
         # Esperando a reação
         try:
@@ -39,6 +39,7 @@ class Racao(commands.Cog):
             dinheiro_requerido = [1000, 5000, 7000, 10000, 15000]
             xps = [1, 6, 8, 15, 20]
 
+            # Passando por reações e escolhas
             for escolha, dinheiro, xp in zip(escolhas, dinheiro_requerido, xps):
 
                 # Verificando se a reação é a correta
@@ -54,6 +55,7 @@ class Racao(commands.Cog):
                     await lvlGalo(ctx.guild.id, ctx.author.id, xp)
                     await update_user(ctx.guild.id, ctx.author.id, 'coins', -dinheiro, 'inc')
 
+        # Deletando a mensagem caso user não inserir uma reação
         except asyncio.TimeoutError:
             return await msg.delete()
 
