@@ -18,6 +18,7 @@ class UpgradeGalo(commands.Cog):
         galo = await user_get(ctx.guild.id, ctx.author.id, 'galo')
         
         # Verificando se dodge é 0
+
         if galo['dodge'] == 0:
             dodge_preco = 500
         elif galo['dodge'] == 1:
@@ -41,50 +42,45 @@ class UpgradeGalo(commands.Cog):
         else:
             crit_preco = galo['crit'] * 700
 
+        # Definindo opções de embed
+        names = ["1️⃣ Vida:", "2️⃣ Força:", "3️⃣ Taxa de desvio:", "4️⃣ Taxa de bloqueio:", "5️⃣ Taxa de acerto critico:"]
+        values = [f"{galo['vida']} / {galo['lvl']*100}", f"{galo['dano']} / {galo['lvl']*10}", f"{galo['dodge']}% / {galo['lvl']*1}%", f"{galo['block']}% / {galo['lvl']*2}%", f"{galo['crit']}% / {galo['lvl']*5}%"]
+        points = ["10", "10", "1", "1", "1"]
+        prices = [{round(galo['vida']*1.5)}, {galo['dano']*15}, dodge_preco, block_preco, crit_preco]
+
         # Criando a embed
         embed = discord.Embed(title="Galo de Briga", description=f"{galo['nome']}", color=0x4FABF7)
-        embed.add_field(name="1️⃣ Vida:", value=f"{galo['vida']} / {galo['lvl']*100}", inline=True)
-        embed.add_field(name="** **", value=f"10 pontos por {round(galo['vida']*1.5)}$", inline=True)
-        embed.add_field(name="** **", value=f"** **", inline=False)
-        embed.add_field(name="2️⃣ Força:", value=f"{galo['dano']} / {galo['lvl']*10}", inline=True)
-        embed.add_field(name="** **", value=f"10 pontos por {galo['dano']*15}$", inline=True)
-        embed.add_field(name="** **", value=f"** **", inline=False)
-        embed.add_field(name="3️⃣ Porcentagem de esquiva:", value=f"{galo['dodge']}% / {galo['lvl']*1}%", inline=True)
-        embed.add_field(name="** **", value=f"1 ponto por {dodge_preco}$", inline=True)
-        embed.add_field(name="** **", value=f"** **", inline=False)
-        embed.add_field(name="4️⃣ Porcentagem de bloqueio:", value=f"{galo['block']}% / {galo['lvl']*2}%", inline=True)
-        embed.add_field(name="** **", value=f"1 ponto por {block_preco}$", inline=True)
-        embed.add_field(name="** **", value=f"** **", inline=False)
-        embed.add_field(name="5️⃣ Porcentagem de critico:", value=f"{galo['crit']}% / {galo['lvl']*5}%", inline=True)
-        embed.add_field(name="** **", value=f"1 ponto por {crit_preco}$", inline=True)
+
+        # Adicionando os campos baseado nas opções
+        for name, value, point, price in zip(names, values, points, prices):
+            embed.add_field(name=name, value=value, inline=True)
+            embed.add_field(name="** **", value=f"{point} pontos por {price}", inline=True)
+            embed.add_field(name="** **", value=f"** **", inline=False)
 
         # Enviando a embed
         msg = await ctx.send(embed=embed)
 
         # Adicionando reações
-        await msg.add_reaction('1️⃣')
-        await msg.add_reaction('2️⃣')
-        await msg.add_reaction('3️⃣')
-        await msg.add_reaction('4️⃣')
-        await msg.add_reaction('5️⃣')
+        reactions = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
+        for i in reactions:
+            await msg.add_reaction(i)
 
         # Função de verificação das reações
         def check(reaction, user):
-            return user.id == ctx.author.id and str(reaction.emoji) in ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
+            return user.id == ctx.author.id and str(reaction.emoji) in reactions
 
         # Esperando a reação
         try:
             reaction, user = await self.client.wait_for('reaction_add', timeout=20.0, check=check)
-        
-            # Definindo opções 
-            escolhas = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
+
+            # Definindo opções
             skills = ['vida', 'dano', 'dodge', 'block', 'crit']
             skillsPoints = [10, 10, 1, 1, 1]
             precos = [round(galo['vida']*1.5), galo['dano']*15, dodge_preco, block_preco, crit_preco]
             scales = [galo['lvl']*100, galo['lvl']*10, galo['lvl']*1, galo['lvl']*2, galo['lvl']*5]
 
             # Passando por todas as opções
-            for escolha, skill, skillPoint, preco, scale in zip(escolhas, skills, skillsPoints, precos, scales):
+            for escolha, skill, skillPoint, preco, scale in zip(reactions, skills, skillsPoints, precos, scales):
 
                 #  Verificando escolha
                 if str(reaction.emoji) == escolha:
@@ -106,6 +102,7 @@ class UpgradeGalo(commands.Cog):
                         await update_user(ctx.guild.id, ctx.author.id, 'galo', galo, 'set')
                         return
 
+        # Deletando mensagem caso o usuário não escolha uma opção
         except asyncio.TimeoutError:
             return await msg.delete()
 
