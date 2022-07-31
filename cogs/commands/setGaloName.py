@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from database.mongodb import update_user, user_get
+from database.mongodb import checkGalo, update_user, user_get
 class Profile(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -9,6 +9,9 @@ class Profile(commands.Cog):
     @commands.command(aliases=['NomeDoGalo'])
     async def setGaloName(self, ctx, name = None):
 
+        # Verificando se o usuário tem o galo
+        await checkGalo(ctx.guild.id, ctx.author.id)
+        
         # Verificando se o nome do galo foi passado
         if name == None:
             await ctx.send('Digite o nome do galo!')
