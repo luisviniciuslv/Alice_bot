@@ -45,7 +45,7 @@ class UpgradeGalo(commands.Cog):
         # Definindo opções de embed
         names = ["1️⃣ Vida:", "2️⃣ Força:", "3️⃣ Taxa de desvio:", "4️⃣ Taxa de bloqueio:", "5️⃣ Taxa de acerto critico:"]
         values = [f"{galo['vida']} / {galo['lvl']*100}", f"{galo['dano']} / {galo['lvl']*10}", f"{galo['dodge']}% / {galo['lvl']*1}%", f"{galo['block']}% / {galo['lvl']*2}%", f"{galo['crit']}% / {galo['lvl']*5}%"]
-        points = ["10", "10", "1", "1", "1"]
+        points = ["10 pontos", "10 pontos", "1 ponto", "1 ponto", "1 ponto"]
         prices = [{round(galo['vida']*1.5)}, {galo['dano']*15}, dodge_preco, block_preco, crit_preco]
 
         # Criando a embed
@@ -54,7 +54,7 @@ class UpgradeGalo(commands.Cog):
         # Adicionando os campos baseado nas opções
         for name, value, point, price in zip(names, values, points, prices):
             embed.add_field(name=name, value=value, inline=True)
-            embed.add_field(name="** **", value=f"{point} pontos por {price}", inline=True)
+            embed.add_field(name="** **", value=f"{point} por {price}", inline=True)
             embed.add_field(name="** **", value=f"** **", inline=False)
 
         # Enviando a embed
