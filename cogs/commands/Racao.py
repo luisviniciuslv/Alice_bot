@@ -34,6 +34,7 @@ class Racao(commands.Cog):
         try:
             reaction, user = await self.client.wait_for('reaction_add', timeout=20.0, check=check)
 
+            # Definindo reações e escolhas
             escolhas = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
             dinheiro_requerido = [1000, 5000, 7000, 10000, 15000]
             xps = [1, 6, 8, 15, 20]
