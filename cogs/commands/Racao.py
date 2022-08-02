@@ -15,29 +15,34 @@ class Racao(commands.Cog):
         # Checkando se o User tem um Galo
         await checkGalo(ctx.guild.id, ctx.author.id)
 
-        # Abrindo e enviando a imagem
-        img = discord.File(open('racoes.png', 'rb'))
-        msg = await ctx.send(file=img)
+        # Criando embed
+        embed = discord.Embed(title="Ração de galo", description=f"** **", color=0x00ff00)
+
+        nomes = ['1️⃣ Milho', '2️⃣ Milho protein', '3️⃣ Creatina', '4️⃣ Ração de combatente', '5️⃣ Whey milho verde']
+        dinheiro_requerido = [250, 1350, 1800, 3500, 6000]
+        xps = [1, 6, 8, 15, 30]
+
+        for nome, dinheiro, xp in zip(nomes, dinheiro_requerido, xps):
+            embed.add_field(name=nome, value=f"{xp} xp por {dinheiro}$", inline=True)
+            embed.add_field(name="** **", value=f"** **", inline=False)
+
+        msg = await ctx.send(embed=embed)
 
         # Adicionando reações
-        await msg.add_reaction('1️⃣')
-        await msg.add_reaction('2️⃣')
-        await msg.add_reaction('3️⃣')
-        await msg.add_reaction('4️⃣')
-        await msg.add_reaction('5️⃣') 
+        reactions = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
+        for i in reactions:
+            await msg.add_reaction(i)
 
         # Função de verificação das reações
         def check(reaction, user):
-            return user.id == ctx.author.id and str(reaction.emoji) in ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
+            return user.id == ctx.author.id and str(reaction.emoji) in reactions
 
         # Esperando a reação
         try:
             reaction, user = await self.client.wait_for('reaction_add', timeout=20.0, check=check)
 
             # Definindo reações e escolhas
-            escolhas = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
-            dinheiro_requerido = [1000, 5000, 7000, 10000, 15000]
-            xps = [1, 6, 8, 15, 20]
+            escolhas = reactions
 
             # Passando por reações e escolhas
             for escolha, dinheiro, xp in zip(escolhas, dinheiro_requerido, xps):

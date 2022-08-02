@@ -65,7 +65,7 @@ class Rinha(commands.Cog):
                         defenderUser = ctx.author
 
                     if random.randint(1, 100) <= defender['dodge']:
-                        log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} desviou do ataque de {atacker['nome']}``", inline=False)
+                        log.add_field(name=f"turno {turns+1}", value=f"``{defender['nome']} desviou do ataque de {atacker['nome']}``", inline=False)
                         turns += 1
 
                     elif random.randint(1, 100) <= atacker['crit']:

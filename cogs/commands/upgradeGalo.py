@@ -1,4 +1,5 @@
 import asyncio
+
 import discord
 from database.mongodb import checkGalo, checkMoney, update_user, user_get
 from discord.ext import commands
@@ -17,40 +18,15 @@ class UpgradeGalo(commands.Cog):
 
         # Pegando o Galo  
         galo = await user_get(ctx.guild.id, ctx.author.id, 'galo')
-        
-        # Verificando se dodge é 0
-
-        if galo['dodge'] == 0:
-            dodge_preco = 500
-        elif galo['dodge'] == 1:
-            dodge_preco = 1000
-        else:
-            dodge_preco = galo['dodge'] * 500
-
-        # Verificando se block é 0
-        if galo['block'] == 0:
-            block_preco = 500
-        elif galo['block'] == 1:
-            block_preco = 1000
-        else:
-            block_preco = galo['block'] * 500
-
-        # Verificando se crit é 0
-        if galo['crit'] == 0:
-            crit_preco = 700
-        elif galo['crit'] == 1:
-            crit_preco = 1400
-        else:
-            crit_preco = galo['crit'] * 700
 
         # Definindo opções de embed
         names = ["1️⃣ Vida:", "2️⃣ Força:", "3️⃣ Taxa de desvio:", "4️⃣ Taxa de bloqueio:", "5️⃣ Taxa de acerto critico:"]
-        values = [f"{galo['vida']} / {galo['lvl']*100}", f"{galo['dano']} / {galo['lvl']*10}", f"{galo['dodge']}% / {galo['lvl']*1}%", f"{galo['block']}% / {galo['lvl']*2}%", f"{galo['crit']}% / {galo['lvl']*5}%"]
+        values = [f"{galo['vida']} / {galo['lvl']*200}", f"{galo['dano']} / {galo['lvl']*10+30}", f"{galo['dodge']}% / {galo['lvl']*5+10}%", f"{galo['block']}% / {galo['lvl']*6+40}%", f"{galo['crit']}% / {galo['lvl']*5+30}%"]
         points = ["10 pontos", "10 pontos", "1 ponto", "1 ponto", "1 ponto"]
-        prices = [{round(galo['vida']*1.5)}, {galo['dano']*15}, dodge_preco, block_preco, crit_preco]
+        prices = [round(galo['vida']*2), galo['dano']*15, galo['dodge']*50, galo['block']*35, galo['crit']*40]
 
         # Criando a embed
-        embed = discord.Embed(title="Galo de Briga", description=f"{galo['nome']}", color=0x4FABF7)
+        embed = discord.Embed(title="🔧 Galo", description=f"{galo['nome']}", color=0x00ff00)
 
         # Adicionando os campos baseado nas opções
         for name, value, point, price in zip(names, values, points, prices):
@@ -77,8 +53,8 @@ class UpgradeGalo(commands.Cog):
             # Definindo opções
             skills = ['vida', 'dano', 'dodge', 'block', 'crit']
             skillsPoints = [10, 10, 1, 1, 1]
-            precos = [round(galo['vida']*1.5), galo['dano']*15, dodge_preco, block_preco, crit_preco]
-            scales = [galo['lvl']*100, galo['lvl']*10, galo['lvl']*1, galo['lvl']*2, galo['lvl']*5]
+            precos = [round(galo['vida']*5), galo['dano']*15,  galo['dodge']*50, galo['block']*35, galo['crit']*40]
+            scales = [galo['lvl']*200, galo['lvl']*10+30, galo['lvl']*5+10, galo['lvl']*6+40, galo['lvl']*5+30]
 
             # Passando por todas as opções
             for escolha, skill, skillPoint, preco, scale in zip(reactions, skills, skillsPoints, precos, scales):
