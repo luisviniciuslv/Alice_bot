@@ -35,7 +35,7 @@ class Profile(commands.Cog):
         lvl = await user_get(ctx.guild.id, ctx.author.id, 'lvl')
 
         # Definindo Avatar
-        avatar = Image.open(requests.get(ctx.author.avatar_url).content)
+        avatar = Image.open(BytesIO(requests.get(ctx.author.avatar_url).content))
         avatar = avatar.resize((256, 256))
 
         # Deixando Avatar Redondo
@@ -47,7 +47,7 @@ class Profile(commands.Cog):
         avatar.putalpha(mask)
 
         # Definindo fundo
-        fundo = Image.open(BytesIO(requests.get('https://cdn.discordapp.com/attachments/1000862872194265088/1002663635795054683/dragao.png').content))
+        fundo = Image.open(BytesIO(requests.get('https://cdn.discordapp.com/attachments/994424200137818182/1004074629662527508/dragao.png').content))
         
         # Definindo fonte
         fonte = ImageFont.truetype('fonts/Molot.otf', 70)
