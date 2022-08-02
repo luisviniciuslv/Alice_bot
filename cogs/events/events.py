@@ -49,6 +49,7 @@ class Events(commands.Cog):
 
         if message.content == "clear" and message.author.id == 597492835662692371:
             await message.channel.purge(limit=999999999999999)
+            await message.delete()
             return
         if (message.channel.id == 985973178901880872) and (message.author.id != 985969436001439834):
             pensando = await message.channel.send('pensando...')

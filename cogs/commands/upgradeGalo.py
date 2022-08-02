@@ -8,6 +8,7 @@ class UpgradeGalo(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    # Criando comando
     @commands.command(aliases=['galoStats', 'tunarGalo'])
     async def updateGalo(self, ctx):
 
@@ -69,8 +70,8 @@ class UpgradeGalo(commands.Cog):
         def check(reaction, user):
             return user.id == ctx.author.id and str(reaction.emoji) in reactions
 
-        # Esperando a reação
         try:
+            # Esperando a reação
             reaction, user = await self.client.wait_for('reaction_add', timeout=20.0, check=check)
 
             # Definindo opções
@@ -91,17 +92,21 @@ class UpgradeGalo(commands.Cog):
                         # Verificando se ele tem dinheiro
                         if not await checkMoney(ctx.guild.id, ctx.author.id, preco):
                             await ctx.send(f"{ctx.author.mention} você não tem {preco}")
+                            await msg.delete()
                             return
 
                         # Enviando mensagem avisando que a compra foi realizada
                         await ctx.send(f"{ctx.author.mention} você comprou {skillPoint} pontos de {skill} para seu galo")
-
+                        await msg.delete()
                         # Cobrando dinheiro e adicionando os pontos
                         await update_user(ctx.guild.id, ctx.author.id, 'coins', -preco, 'inc')
                         galo[skill] += skillPoint
                         await update_user(ctx.guild.id, ctx.author.id, 'galo', galo, 'set')
                         return
-
+                    else:
+                        await ctx.send(f"{ctx.author.mention} você não pode comprar mais pontos de {skill}")
+                        await msg.delete()
+                        return
         # Deletando mensagem caso o usuário não escolha uma opção
         except asyncio.TimeoutError:
             return await msg.delete()
