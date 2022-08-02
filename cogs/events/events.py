@@ -12,11 +12,11 @@ def gpt3(stext):
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=stext,
-            temperature=0.2,
+            temperature=1,
             max_tokens=3500,
-            top_p=0.5,
-            frequency_penalty=0.3,
-            presence_penalty=0.3,
+            top_p=1,
+            frequency_penalty=1,
+            presence_penalty=1,
     )
     return response.choices[0].text
 class Events(commands.Cog):
