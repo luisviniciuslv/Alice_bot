@@ -35,7 +35,7 @@ class Profile(commands.Cog):
         lvl = await user_get(ctx.guild.id, ctx.author.id, 'lvl')
 
         # Definindo Avatar
-        avatar = Image.open(BytesIO(requests.get(avatar).content))
+        avatar = Image.open(requests.get(ctx.author.avatar_url).content)
         avatar = avatar.resize((256, 256))
 
         # Deixando Avatar Redondo
