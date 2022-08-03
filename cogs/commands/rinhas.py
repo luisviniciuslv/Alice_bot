@@ -131,7 +131,7 @@ class Galo(commands.Cog):
                         embed = discord.Embed(title="Rinha de galo", value=f"** **", color=0x4FABF7)
                         embed.add_field(name="**Fim**", value=f"``{atackerName} venceu a rinha de galo com {defenderName}``", inline=False)
                         embed.add_field(name="**XP de galo adquirido**", value=f"``{xp}``", inline=False)
-                        embed.add_field(name="**Valor recebido por vitória: **", value=f"``{coinsup}``", inline=False)
+                        embed.add_field(name="**Valor recebido por vitória: **", value=f"``{price + 50}``", inline=False)
             
                         await ctx.send(embed=log)
                         await ctx.send(embed=embed)
@@ -148,6 +148,5 @@ class Galo(commands.Cog):
             return await msg.delete()
         # Função de verificação das reações
 
-            
 def setup(client):
   client.add_cog(Galo(client))
