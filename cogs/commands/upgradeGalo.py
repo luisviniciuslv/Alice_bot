@@ -19,11 +19,23 @@ class UpgradeGalo(commands.Cog):
         # Pegando o Galo  
         galo = await user_get(ctx.guild.id, ctx.author.id, 'galo')
 
+        dodge = galo['lvl']*5+10
+        if dodge > 40:
+            dodge = 40
+
+        block = galo['lvl']*6+40
+        if block > 50:
+            block = 50
+
+        crit = galo['lvl']*5+30
+        if crit > 60:
+            crit = 60
+
         # Definindo opções de embed
         names = ["1️⃣ Vida:", "2️⃣ Força:", "3️⃣ Taxa de desvio:", "4️⃣ Taxa de bloqueio:", "5️⃣ Taxa de acerto critico:"]
-        values = [f"{galo['vida']} / {galo['lvl']*200}", f"{galo['dano']} / {galo['lvl']*10+30}", f"{galo['dodge']}% / {galo['lvl']*5+10}%", f"{galo['block']}% / {galo['lvl']*6+40}%", f"{galo['crit']}% / {galo['lvl']*5+30}%"]
+        values = [f"{galo['vida']} / {galo['lvl']*200}", f"{galo['dano']} / {galo['lvl']*10+30}", f"{galo['dodge']}% / {dodge}%", f"{galo['block']}% / {block}%", f"{galo['crit']}% / {crit}%"]
         points = ["10 pontos", "10 pontos", "1 ponto", "1 ponto", "1 ponto"]
-        prices = [round(galo['vida']*2), galo['dano']*15, galo['dodge']*50, galo['block']*35, galo['crit']*40]
+        prices = [round(galo['vida']*2), galo['dano']*15, galo['dodge']*75, galo['block']*35, galo['crit']*40]
 
         # Criando a embed
         embed = discord.Embed(title="🔧 Galo", description=f"{galo['nome']}", color=0x00ff00)
@@ -54,7 +66,7 @@ class UpgradeGalo(commands.Cog):
             skills = ['vida', 'dano', 'dodge', 'block', 'crit']
             skillsPoints = [10, 10, 1, 1, 1]
             precos = [round(galo['vida']*10), galo['dano']*25,  galo['dodge']*75, galo['block']*55, galo['crit']*65]
-            scales = [galo['lvl']*200, galo['lvl']*10+30, galo['lvl']*5+10, galo['lvl']*6+40, galo['lvl']*5+30]
+            scales = [galo['lvl']*200, galo['lvl']*10+30, dodge, block, crit]
 
             # Passando por todas as opções
             for escolha, skill, skillPoint, preco, scale in zip(reactions, skills, skillsPoints, precos, scales):
