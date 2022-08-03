@@ -53,7 +53,7 @@ class UpgradeGalo(commands.Cog):
             # Definindo opções
             skills = ['vida', 'dano', 'dodge', 'block', 'crit']
             skillsPoints = [10, 10, 1, 1, 1]
-            precos = [round(galo['vida']*2), galo['dano']*15,  galo['dodge']*50, galo['block']*35, galo['crit']*40]
+            precos = [round(galo['vida']*10), galo['dano']*25,  galo['dodge']*75, galo['block']*55, galo['crit']*65]
             scales = [galo['lvl']*200, galo['lvl']*10+30, galo['lvl']*5+10, galo['lvl']*6+40, galo['lvl']*5+30]
 
             # Passando por todas as opções

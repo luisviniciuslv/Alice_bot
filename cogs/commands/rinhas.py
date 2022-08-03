@@ -12,36 +12,27 @@ block = ['bloqueou o ataque do', 'segurou o ataque do', 'aguentou com as asas o 
 class Galo(commands.Cog):
     def __init__(self, client):
         self.client = client
-
+    @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.command()
     async def rinhas(self, ctx):
-        embed = discord.Embed(title="Rinha", description=f"** **", color=0x4FABF7)
-        embed.add_field(name="**1️⃣ GALO: João sem braço**", value=f"``Fácil``", inline=False)
-        embed.add_field(name="Vida:", value=f"95", inline=False)
-        embed.add_field(name="Força:", value=f"25", inline=False)
-        embed.add_field(name="Valor de entrada:", value=f"250$", inline=False)
-        embed.add_field(name="Xp para ganhar:", value=f"5", inline=False)
+        
+        galos = ['**1️⃣ GALO: João sem braço**', '**2️⃣ GALO: Zézinho**', '**3️⃣ GALO: Ricardo pé de ferro**', '**4️⃣ GALO: Galo de pedra**']
+        vidas = [95, 100, 150, 500]
+        forcas = [25, 30, 50, 150]
+        valores = [250, 300, 500, 1000]
+        var_xps = [5, 10, 25, 50]
 
-        embed.add_field(name="** **", value=f"** **", inline=False)
-
-        embed.add_field(name="**2️⃣ GALO: Zézinho**", value=f"``Normal``", inline=False)
-        embed.add_field(name="Vida:", value=f"100", inline=False)
-        embed.add_field(name="Força:", value=f"30", inline=False)
-        embed.add_field(name="Valor de entrada:", value=f"300$", inline=False)
-        embed.add_field(name="Xp para ganhar:", value=f"10", inline=False)
-
-        embed.add_field(name="** **", value=f"** **", inline=False)
-
-        embed.add_field(name="**3️⃣ GALO: Ricardo pé de ferro**", value=f"``Díficil``", inline=False)
-        embed.add_field(name="Vida:", value=f"150", inline=False)
-        embed.add_field(name="Força:", value=f"50", inline=False)
-        embed.add_field(name="Valor de entrada:", value=f"500$", inline=False)
-        embed.add_field(name="Xp para ganhar:", value=f"25", inline=False)
-
+        embed = discord.Embed(title="Rinhas", description=f"** **", color=0x4FABF7)
+        for galo, vida, forca, valor, var_xp in zip(galos, vidas, forcas, valores, var_xps):
+            embed.add_field(name=f"{galo}", value=f"``Fácil``", inline=False)
+            embed.add_field(name="**Vida**", value=f"{vida}", inline=False)
+            embed.add_field(name="**Força**", value=f"{forca}", inline=False)
+            embed.add_field(name="**Valor**", value=f"{valor}", inline=False)
+            embed.add_field(name="**XP**", value=f"{var_xp}", inline=False)
         msg = await ctx.send(embed=embed)
 
         # Adicionando reações
-        reactions = ['1️⃣', '2️⃣', '3️⃣']
+        reactions = ['1️⃣', '2️⃣', '3️⃣', '4️⃣']
         for i in reactions:
             await msg.add_reaction(i)
 
@@ -55,11 +46,11 @@ class Galo(commands.Cog):
 
             # Definindo reações e escolhas
             escolhas = reactions
-            names = ['João sem braço', 'Zézinho', 'Ricardo pé de ferro']
-            lifes = [95, 100, 150]
-            forces = [25, 30, 50]
-            prices = [250, 300, 500]
-            xps = [5, 10, 25]
+            names = ['João sem braço', 'Zézinho', 'Ricardo pé de ferro', 'Galo de pedra']
+            lifes = [95, 100, 150, 500]
+            forces = [25, 30, 50, 150]
+            prices = [250, 300, 500, 1000]
+            xps = [5, 10, 25, 50]
             
             for escolha, name, life, force, price, xp in zip(escolhas, names, lifes, forces, prices, xps):
                 if str(reaction.emoji) == escolha:
@@ -69,8 +60,8 @@ class Galo(commands.Cog):
                         return
                     # Criando galo
                     galo2 = {'nome': name, 'vida': life, 'dano': force, 'dodge': 10, 'block': 40, 'crit': 30}
-                    xp = xp
-                    price = price
+                    xp_a_ganhar = xp
+                    price_a_ganhar = price
                     galo1 = await user_get(ctx.guild.id, ctx.author.id, 'galo')
 
             # Criando embed
@@ -94,27 +85,36 @@ class Galo(commands.Cog):
                     defenderName = ctx.author.name
                     defender= galo1
 
+                
                 if random.randint(1, 100) <= defender['dodge']:
                         log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} {random.choice(dodge)} {atacker['nome']}``", inline=False)
                         turns += 1
                 
                 elif random.randint(1, 100) <= atacker['crit']:
                         if random.randint(1,100) <= defender['block']:
-                            log.add_field(name=f"turno {turns}", value=f"``{defender['nome']}segurou um ataque critico do {atacker['nome']} , recebendo {atacker['dano']} de dano``", inline=False)
+                            log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} segurou um ataque critico do {atacker['nome']} , recebendo {atacker['dano']} de dano``", inline=False)
                             defender['vida'] -= atacker['dano']
+                            log.add_field(name=f"``{galo1['nome']}: {galo1['vida']} de vida``", value=f"** **", inline=False)
+                            log.add_field(name=f"``{galo2['nome']}: {galo2['vida']} de vida``", value=f"** **", inline=False)
                             turns += 1
                         else:
                             log.add_field(name=f"turno {turns}", value=f"``{atacker['nome']} {random.choice(critical)} {defender['nome']}, dando {atacker['dano'] * 2} de dano``", inline=False)
-                            defender['vida'] -= atacker['dano'] * 2 
+                            defender['vida'] -= atacker['dano'] * 2
+                            log.add_field(name=f"``{galo1['nome']}: {galo1['vida']} de vida``", value=f"** **", inline=False)
+                            log.add_field(name=f"``{galo2['nome']}: {galo2['vida']} de vida``", value=f"** **", inline=False) 
                             turns += 1
                         
                 elif random.randint(1, 100) <= defender['block']:
                         log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} {random.choice(block)} {atacker['nome']}, recebendo {round(atacker['dano'] / 2)} de dano``", inline=False)
                         defender['vida'] -= round(atacker['dano'] / 2)
+                        log.add_field(name=f"``{galo1['nome']}: {galo1['vida']} de vida``", value=f"** **", inline=False)
+                        log.add_field(name=f"``{galo2['nome']}: {galo2['vida']} de vida``", value=f"** **", inline=False) 
                         turns += 1  
                 else:
                     log.add_field(name=f"turno {turns}", value=f"``{atacker['nome']} {random.choice(atack)} {defender['nome']}, recebendo {atacker['dano']} de dano``", inline=False)
                     defender['vida'] -= atacker['dano']
+                    log.add_field(name=f"``{galo1['nome']}: {galo1['vida']} de vida``", value=f"** **", inline=False)
+                    log.add_field(name=f"``{galo2['nome']}: {galo2['vida']} de vida``", value=f"** **", inline=False) 
                     turns += 1  
 
                 if defender['vida'] <= 0:
@@ -126,21 +126,21 @@ class Galo(commands.Cog):
                         return
                     else: 
                         coins = await user_get(ctx.guild.id, ctx.author.id, 'coins')
-                        coinsdown = coins - price
-                        coinsup = coins + price + 50
+                        coinsdown = coins - price_a_ganhar
+                        coinsup = coins + price_a_ganhar + 50
                         embed = discord.Embed(title="Rinha de galo", value=f"** **", color=0x4FABF7)
                         embed.add_field(name="**Fim**", value=f"``{atackerName} venceu a rinha de galo com {defenderName}``", inline=False)
-                        embed.add_field(name="**XP de galo adquirido**", value=f"``{xp}``", inline=False)
-                        embed.add_field(name="**Valor recebido por vitória: **", value=f"``{price + 50}``", inline=False)
+                        embed.add_field(name="**XP de galo adquirido**", value=f"``{xp_a_ganhar}``", inline=False)
+                        embed.add_field(name="**Valor recebido por vitória: **", value=f"``{price_a_ganhar + 50}``", inline=False)
             
                         await ctx.send(embed=log)
                         await ctx.send(embed=embed)
                         coins = await user_get(ctx.guild.id, ctx.author.id, 'coins')
-                        coinsdown = coins - price
-                        coinsup = coins + price + 50
+                        coinsdown = coins - price_a_ganhar
+                        coinsup = coins + price_a_ganhar + 50
 
                         await update_user(ctx.guild.id, ctx.author.id, 'coins', coinsdown, 'set')
-                        await lvlGalo(ctx.guild.id, ctx.author.id, xp)
+                        await lvlGalo(ctx.guild.id, ctx.author.id, xp_a_ganhar)
                         await update_user(ctx.guild.id, ctx.author.id, 'coins', coinsup, 'set')
                         return
         # Deletando a mensagem caso user não inserir uma reação
@@ -149,4 +149,4 @@ class Galo(commands.Cog):
         # Função de verificação das reações
 
 def setup(client):
-  client.add_cog(Galo(client))
+    client.add_cog(Galo(client))

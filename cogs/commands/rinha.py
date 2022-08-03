@@ -66,25 +66,31 @@ class Rinha(commands.Cog):
                         defenderUser = ctx.author
 
                     if random.randint(1, 100) <= defender['dodge']:
-                        log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} desviou do ataque de {atacker['nome']}``", inline=False)
+                        log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} {random.choice(dodge)} {atacker['nome']}``", inline=False)
                         turns += 1
 
                     elif random.randint(1, 100) <= atacker['crit']:
                         if random.randint(1,100) <= defender['block']:
-                            log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} bloqueou o ataque critico de {atacker['nome']}, recebendo {atacker['dano']} de dano``", inline=False)
+                            log.add_field(name=f"turno {turns}", value=f"``{defender['nome']}segurou um ataque critico do {atacker['nome']}, recebendo {atacker['dano']} de dano``", inline=False)
                             defender['vida'] -= atacker['dano']
+                            log.add_field(name=f"``{galo1['nome']}: {galo1['vida']} de vida``", value=f"** **", inline=False)
+                            log.add_field(name=f"``{galo2['nome']}: {galo2['vida']} de vida``", value=f"** **", inline=False)
                             turns += 1
                         else:
-                            log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} recebeu um ataque critico de {atacker['nome']}, recebendo {atacker['dano'] * 2} de dano``", inline=False)
+                            log.add_field(name=f"turno {turns}", value=f"``{atacker['nome']} {random.choice(critical)} {defender['nome']}, recebendo {atacker['dano'] * 2} de dano``", inline=False)
                             defender['vida'] -= atacker['dano'] * 2 
                             turns += 1
 
                     elif random.randint(1, 100) <= defender['block']:
-                        log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} bloqueou o ataque de {atacker['nome']}, recebendo {round(atacker['dano'] / 2)} de dano``", inline=False)
+                        log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} {random.choice(block)} {atacker['nome']}, recebendo {round(atacker['dano'] / 2)} de dano``", inline=False)
                         defender['vida'] -= round(atacker['dano'] / 2)
+                        log.add_field(name=f"``{galo1['nome']}: {galo1['vida']} de vida``", value=f"** **", inline=False)
+                        log.add_field(name=f"``{galo2['nome']}: {galo2['vida']} de vida``", value=f"** **", inline=False)
                         turns += 1  
                     else:
-                        log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} recebeu um ataque de {atacker['nome']}, recebendo {atacker['dano']} de dano``", inline=False)
+                        log.add_field(name=f"turno {turns}", value=f"``{atacker['nome']} {random.choice(atack)} {defender['nome']}, recebendo {atacker['dano']} de dano``", inline=False)
+                        log.add_field(name=f"``{galo1['nome']}: {galo1['vida']} de vida``", value=f"** **", inline=False)
+                        log.add_field(name=f"``{galo2['nome']}: {galo2['vida']} de vida``", value=f"** **", inline=False)
                         defender['vida'] -= atacker['dano']
                         turns += 1  
                     if defender['vida'] <= 0:
