@@ -53,7 +53,7 @@ class UpgradeGalo(commands.Cog):
             # Definindo opções
             skills = ['vida', 'dano', 'dodge', 'block', 'crit']
             skillsPoints = [10, 10, 1, 1, 1]
-            precos = [round(galo['vida']*5), galo['dano']*15,  galo['dodge']*50, galo['block']*35, galo['crit']*40]
+            precos = [round(galo['vida']*2), galo['dano']*15,  galo['dodge']*50, galo['block']*35, galo['crit']*40]
             scales = [galo['lvl']*200, galo['lvl']*10+30, galo['lvl']*5+10, galo['lvl']*6+40, galo['lvl']*5+30]
 
             # Passando por todas as opções
@@ -83,6 +83,7 @@ class UpgradeGalo(commands.Cog):
                         await ctx.send(f"{ctx.author.mention} você não pode comprar mais pontos de {skill}")
                         await msg.delete()
                         return
+
         # Deletando mensagem caso o usuário não escolha uma opção
         except asyncio.TimeoutError:
             return await msg.delete()

@@ -1,9 +1,10 @@
 import asyncio
-import discord
-from discord.ext import commands
 import random
 
+import discord
 from database.mongodb import checkMoney, user_get
+from discord.ext import commands
+
 atack = ['atacou por trás do', 'atacou por frente do', 'atacou por cima do', 'acertou a cabeça do', 'acertou as costas do']
 critical = ['quebrou uma perna do', 'rasgou o peito do', 'depenou o pescoço do']
 dodge = ['desviou pela direita do', 'deu um pulo e saiu ileso do', 'desviou com classe do']
@@ -14,7 +15,7 @@ class Rinha(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["battle"])
-    async def rinha(self, ctx, aposta: int, member: discord.Member):
+    async def rinha(self, ctx, aposta: int = None, member: discord.Member= None):
 
         # Verificando se o usuário marcou ele mesmo
         if member.id == ctx.author.id:
@@ -65,7 +66,7 @@ class Rinha(commands.Cog):
                         defenderUser = ctx.author
 
                     if random.randint(1, 100) <= defender['dodge']:
-                        log.add_field(name=f"turno {turns+1}", value=f"``{defender['nome']} desviou do ataque de {atacker['nome']}``", inline=False)
+                        log.add_field(name=f"turno {turns}", value=f"``{defender['nome']} desviou do ataque de {atacker['nome']}``", inline=False)
                         turns += 1
 
                     elif random.randint(1, 100) <= atacker['crit']:
