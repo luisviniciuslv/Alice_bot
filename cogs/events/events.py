@@ -13,7 +13,7 @@ def gpt3(stext):
         engine="text-davinci-002",
         prompt=stext,
             temperature=1,
-            max_tokens=3500,
+            max_tokens=1000,
             top_p=1,
             frequency_penalty=1,
             presence_penalty=1,
