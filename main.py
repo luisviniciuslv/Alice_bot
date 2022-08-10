@@ -1,9 +1,6 @@
 import os
-
 from discord.ext import commands
-from dotenv import load_dotenv
-
-load_dotenv()
+from config import config
 
 client = commands.Bot(command_prefix='!', case_insensitive=True)
 client.remove_command('help')
@@ -26,5 +23,5 @@ async def reload(ctx):
       else:
         client.reload_extension(f'cogs.{i}.{e[:-3]}')
         print('loaded ', e)
-
-client.run(os.getenv('bot_token'))
+  
+client.run(config['token_bot'])

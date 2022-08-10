@@ -3,10 +3,10 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 from pymongo import MongoClient
-
+from config import config
 load_dotenv()
 
-client = MongoClient(os.getenv("database_connection"))
+client = MongoClient(config['mongo_token'])
 db = client['AI']
 async def get_log():
     collection = db['Alice']

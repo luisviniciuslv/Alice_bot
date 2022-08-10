@@ -1,15 +1,11 @@
 from database.mongodb import get_log, set_log
-import os
-
+from config import config
 import openai
 from discord.ext import commands
-from dotenv import load_dotenv
-
-load_dotenv()
 
 async def gpt3(self, stext):
     log = await get_log()
-    openai.api_key = os.getenv("api_key")
+    openai.api_key = config['open_ai_token']
 
     prompt = f'{log}Human: {stext}\nAI:'
 
@@ -25,7 +21,7 @@ async def gpt3(self, stext):
         stop=['\nHuman']
     )
     set_log(log + f'Human: {stext}\nAI: {response.choices[0].text.strip()}\n')
-    
+
     return response.choices[0].text.strip()
 
 class Chatbot(commands.Cog):

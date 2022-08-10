@@ -1,11 +1,10 @@
-from discord.ext import commands
 import openai
-import os
-from dotenv import load_dotenv
-load_dotenv()
+from config import config
+from discord.ext import commands
+
 
 def gpt3(stext):
-    openai.api_key = os.getenv("api_key")
+    openai.api_key = config['open_ai_token']
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=stext,
@@ -16,6 +15,7 @@ def gpt3(stext):
             presence_penalty=1,
     )
     return response.choices[0].text
+
 class AI(commands.Cog):
     def __init__(self, client):
         self.client = client
