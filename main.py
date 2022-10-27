@@ -7,7 +7,7 @@ from discord.ext import commands
 
 from config import config
 
-MY_GUILD = discord.Object(id=933020401632677888) 
+ 
 class MyClient(commands.Bot):
     def __init__(self):
         super().__init__(
@@ -20,10 +20,10 @@ class MyClient(commands.Bot):
           if str(e).endswith('.py'):
             print('loaded ', e)
             await client.load_extension(f'cogs.{i}.{e[:-3]}')
-      self.tree.copy_global_to(guild=MY_GUILD)
-      await self.tree.sync(guild=MY_GUILD)
-
-
+            
+      # MY_GUILD = discord.Object(id=933020401632677888)
+      # self.client.tree.copy_global_to(MY_GUILD)
+      # await self.client.tree.sync(MY_GUILD)
 intents = discord.Intents.all()
 client = MyClient()
 

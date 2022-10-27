@@ -28,7 +28,7 @@ class AI(commands.Cog):
         if "!clear" in message.content.lower():
             return
         
-        if ((message.channel.name == "nins-ia") or (message.channel.name == "〘🗿🍷〙fino-senhores")) and (message.author.id != 985969436001439834):
+        if (("alice-ia" in message.channel.name) or (message.channel.name == "〘🗿🍷〙fino-senhores")) and (message.author.id != 985969436001439834):
             pensando = await message.channel.send('pensando...')
             response = gpt3(message.content)
             n = 2000
