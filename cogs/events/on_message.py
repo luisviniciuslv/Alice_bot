@@ -1,4 +1,3 @@
-
 from discord.ext import commands
 class OnMessage(commands.Cog):
     def __init__(self, client):
@@ -11,5 +10,5 @@ class OnMessage(commands.Cog):
         if i in message.content:
           await message.channel.send(f"{message.author.mention} Não seja racista, respeite o proximo, filho da puta")
             
-def setup(client):
-    client.add_cog(OnMessage(client))
+async def setup(client):
+    await client.add_cog(OnMessage(client))

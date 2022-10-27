@@ -1,7 +1,7 @@
 import openai
 from config import config
 from discord.ext import commands
-
+import discord
 
 def gpt3(stext):
     openai.api_key = config['open_ai_token']
@@ -21,14 +21,14 @@ class AI(commands.Cog):
         self.client = client
 
     @commands.Cog.listener()
-    async def on_message(self, message):
+    async def on_message(self, message: discord.Message):
         if "!ignore" in message.content.lower() or "!ig" in message.content.lower():
             return
 
         if "!clear" in message.content.lower():
             return
-
-        if (message.channel.id == 985973178901880872) and (message.author.id != 985969436001439834):
+        
+        if ((message.channel.name == "nins-ia") or (message.channel.name == "〘🗿🍷〙fino-senhores")) and (message.author.id != 985969436001439834):
             pensando = await message.channel.send('pensando...')
             response = gpt3(message.content)
             n = 2000
@@ -41,5 +41,5 @@ class AI(commands.Cog):
                 except:
                     await message.channel.send("quebrei")
 
-def setup(client):
-    client.add_cog(AI(client))
+async def setup(client):
+    await client.add_cog(AI(client))

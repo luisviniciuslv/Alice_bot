@@ -1,4 +1,3 @@
-
 import discord
 from discord.ext import commands
 import os
@@ -12,12 +11,10 @@ class Reload(commands.Cog):
   async def reload(self, ctx):
     for i in os.listdir('./cogs'):
       for e in os.listdir(f'./cogs/{i}'):
-        if str(e).startswith('__py'):
-          pass
-        else:
-          self.client.reload_extension(f'cogs.{i}.{e[:-3]}')
+        if str(e).endswith('.py'):
           print('loaded ', e)
-    await ctx.send('Bot reloaded!')
+          await self.client.reload_extension(f'cogs.{i}.{e[:-3]}')
+    await ctx.send("Reloaded")
 
-def setup(client):
-    client.add_cog(Reload(client))
+async def setup(client):
+    await client.add_cog(Reload(client))

@@ -1,17 +1,30 @@
+import asyncio
 import os
+
+import discord
+from discord import app_commands
 from discord.ext import commands
+
 from config import config
 
-client = commands.Bot(command_prefix='!', case_insensitive=True)
-client.remove_command('help')
+MY_GUILD = discord.Object(id=933020401632677888) 
+class MyClient(commands.Bot):
+    def __init__(self):
+        super().__init__(
+          command_prefix='!',
+          intents=discord.Intents.all()
+        )
+    async def setup_hook(self):
+      for i in os.listdir('./cogs'):
+        for e in os.listdir(f'./cogs/{i}'):
+          if str(e).endswith('.py'):
+            print('loaded ', e)
+            await client.load_extension(f'cogs.{i}.{e[:-3]}')
+      self.tree.copy_global_to(guild=MY_GUILD)
+      await self.tree.sync(guild=MY_GUILD)
 
-for i in os.listdir('./cogs'):
-  for e in os.listdir(f'./cogs/{i}'):
-    if str(e).startswith('__py') or str(e).startswith('fonts') :
-      pass
-    else:
-      print('loaded ', e)
-      client.load_extension(f'cogs.{i}.{e[:-3]}')
 
+intents = discord.Intents.all()
+client = MyClient()
 
 client.run(config['token_bot'])
