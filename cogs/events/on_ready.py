@@ -1,6 +1,5 @@
 from discord.ext import commands
 import discord
-
 class Ready(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -18,7 +17,5 @@ class Ready(commands.Cog):
         print('@================@')
         print('    BOT ONLINE    ')
         print('@================@')
-        
-
 async def setup(client):
     await client.add_cog(Ready(client))

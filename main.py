@@ -7,7 +7,7 @@ from discord.ext import commands
 
 from config import config
 
- 
+
 class MyClient(commands.Bot):
     def __init__(self):
         super().__init__(

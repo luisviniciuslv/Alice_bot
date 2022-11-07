@@ -10,8 +10,8 @@ class Valorant(commands.Cog):
   def __init__(self, client):
     self.client = client
     
-  @app_commands.command(name='valorant', description='pega informações da sua conta no valorant')
-  async def valorant(self, interaction: discord.Interaction, nome: str, tag: str):
+  @app_commands.command(name='valorant', description='pega informações de até suas ultimas 10 partidas no valorant')
+  async def valorant(self, interaction: discord.Interaction, nome: str, tag: str, numero_de_partidas: int):
     await interaction.response.send_message("Aguarde, estamos processando as informações...")
     response = requests.get(f"https://api.henrikdev.xyz/valorant/v1/account/{nome}/{tag}")
     data = response.content
@@ -28,30 +28,33 @@ class Valorant(commands.Cog):
     rankImage = json.loads(response.content)['data']['images']['small']
     name = f"{nome}#{tag}"
     
-    response =  requests.get(f"https://api.henrikdev.xyz/valorant/v3/matches/{region}/{nome}/{tag}")
+    response =  requests.get(f"https://api.henrikdev.xyz/valorant/v3/matches/{region}/{nome}/{tag}?size={numero_de_partidas}")
     matches = json.loads(response.content)['data']
     kills = 0
     headshots = 0
     bodyshots = 0
     legshots = 0
     deaths = 0
+    partidas = str(numero_de_partidas)
+    if numero_de_partidas > 10:
+      partidas = "10"
     for match in matches:
-        for player in match['players']['all_players']:
-          if player['puuid'] == puuid:
-            kills += player['stats']['kills']
-            headshots += player['stats']['headshots']
-            bodyshots += player['stats']['bodyshots']
-            legshots += player['stats']['legshots']
-            deaths += player['stats']['deaths']
+      for player in match['players']['all_players']:
+        if player['puuid'] == puuid:
+          kills += player['stats']['kills']
+          headshots += player['stats']['headshots']
+          bodyshots += player['stats']['bodyshots']
+          legshots += player['stats']['legshots']
+          deaths += player['stats']['deaths']
     tiros_no_corpot = bodyshots + legshots
     porcentagem_headshots = round((headshots / tiros_no_corpot) * 100)
-    embed=discord.Embed(title="Valorant", description="Ultimas 5 partidas", color=0x00b3ff)
+    embed=discord.Embed(title="Valorant",description="** **", color=0x00b3ff)
     embed.set_author(name=f"{name}", icon_url=rankImage)
     embed.set_thumbnail(url=card)
     embed.add_field(name="Level", value=level, inline=True)
     embed.add_field(name="Rank", value=rank, inline=True)
     embed.add_field(name="** **", value="** **", inline=False)
-    embed.add_field(name="**Ultimas 5 partidas**", value="** **", inline=False)
+    embed.add_field(name=f"**Ultimas {partidas} partidas**", value="** **", inline=False)
     embed.add_field(name="** **", value="** **", inline=False)
     embed.add_field(name=f"Kills: {kills}", value="** **", inline=False)
     embed.add_field(name=f"Mortes: {deaths}", value="** **", inline=False)
