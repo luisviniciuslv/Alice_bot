@@ -1,5 +1,5 @@
 class WrongWord(Exception):
-    def __init__(self, attempts):
-        self.attempts = attempts
+    def __init__(self, msg):
+        self.msg = msg
     def __str__(self):
-        return f"Você errou, agora tem {self.attempts} tentativas"
+        return f"```{self.msg}```"
