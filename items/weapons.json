@@ -1,0 +1,81 @@
+[
+  {
+    "id": 21,
+    "tier": 1,
+    "name": "espada de madeira",
+    "damage": 10,
+    "type": "weapon",
+    "price": 100
+  },
+  {
+    "id": 22,
+    "tier": 1,
+    "name": "espada de bronze",
+    "damage": 15,
+    "type": "weapon",
+    "price": 200
+  },
+  {
+    "id": 23,
+    "tier": 2,
+    "name": "espada de ferro",
+    "damage": 20,
+    "type": "weapon",
+    "price": 300
+  },
+  {
+    "id": 24,
+    "tier": 2,
+    "name": "espada de aço",
+    "damage": 25,
+    "type": "weapon",
+    "price": 400
+  },
+  {
+    "id": 25,
+    "tier": 2,
+    "name": "espada de adamantita",
+    "damage": 30,
+    "type": "weapon",
+    "price": 500
+  },
+  {
+    "id": 26,
+    "tier": 3,
+    "name": "espada de mithril",
+    "damage": 35,
+    "type": "weapon",
+    "price": 600
+  },
+  {
+    "id": 27,
+    "tier": 3,
+    "name": "espada de ouro",
+    "damage": 40,
+    "type": "weapon",
+    "price": 700
+  },
+  {
+    "id": 28,
+    "tier": 3,
+    "name": "espada de prata",
+    "damage": 45,
+    "type": "weapon",
+    "price": 800
+  },
+  {
+    "id": 29,
+    "tier": 4,
+    "name": "espada de platina",
+    "damage": 50,
+    "type": "weapon",
+    "price": 900
+  },
+  {
+    "id": 210,
+    "tier": 5,
+    "name": "espada de diamante",
+    "damage": 55,
+    "price": 1000
+  }
+]

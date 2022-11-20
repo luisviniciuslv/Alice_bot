@@ -12,7 +12,6 @@ class ChangeName(commands.Cog):
     if not interaction.user.guild_permissions.change_nickname:
       await interaction.response.send_message('Você não tem permissão para executar esse comando!', ephemeral=True)
       return
-    
     if len(novo_nickname) > 32:
       return await interaction.response.send_message('O nickname deve ter no máximo 32 caracteres', ephemeral=True)
     try:
