@@ -6,7 +6,7 @@ import discord
 def gpt3(stext):
     openai.api_key = config['open_ai_token']
     response = openai.Completion.create(
-        engine="text-davinci-002",
+        engine="text-davinci-003",
         prompt=stext,
             temperature=0.4,
             max_tokens=1000,
