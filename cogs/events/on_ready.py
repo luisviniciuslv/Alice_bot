@@ -8,7 +8,7 @@ class Ready(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=f'Sua mãe na minha cama', type=3))
+        await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=f'Sua mãe na cama', type=3))
 
         for guild in self.client.guilds:
             print("sincronizando comandos em ", guild.name)
