@@ -41,8 +41,9 @@ class AI(commands.Cog):
             await message.channel.send(i)
           except:
             await message.channel.send("quebrei")
+
     except:
-      pass
+      await message.channel.send("quebrei")
 
 async def setup(client):
   await client.add_cog(AI(client))
